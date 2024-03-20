@@ -22,6 +22,8 @@ import com.fernandodias.wishlist.api.service.impl.IWishlistService;
 
 @Service
 public class WishlistService implements IWishlistService {
+	
+	private static final int WISHLIST_LIMIT_SIZE = 20;
 
 	@Autowired
 	private WishlistRepository wishlistRepository;
@@ -33,7 +35,7 @@ public class WishlistService implements IWishlistService {
 			wishlist = wishlistRepository.save(wishlist);
 			return new WishlistRecord(wishlist.getId(), wishlist.getUserId(), wishlist.getProducts());
 		} catch (Exception e) {
-			throw new WishlistException("Error on save/update", e);
+			throw new WishlistException("Error on save/update: " + e.getMessage(), e);
 		}
 	}
 
@@ -43,18 +45,28 @@ public class WishlistService implements IWishlistService {
 				request.getUserId());
 		
 		actualWishlistOptional.ifPresent(actualWishlist -> {
+			
 			wishlist.setId(actualWishlist.getId());
 			Set<Product> actualProducts = new TreeSet<>(Comparator.comparing(Product::getSku));
 			actualProducts.addAll(actualWishlist.getProducts());
 			actualProducts.add(new Product(request.getProduct()));
+			
+			checkWishlistLimit(actualProducts);
 			wishlist.setProducts(new ArrayList<>(actualProducts));
 		});
 
 		return wishlist;
 	}
 
+	private void checkWishlistLimit(Set<Product> actualProducts) {
+		if (actualProducts.size() > WISHLIST_LIMIT_SIZE) {
+			throw new WishlistException(
+					String.format("The wishlist can have a maximum of %s items", WISHLIST_LIMIT_SIZE));
+		}
+	}
+
 	@Override
-	public void remove(String wishlistId, String sku) {
+	public void removeProduct(String wishlistId, String sku) {
 		Optional<Wishlist> actualWishlistOptional = wishlistRepository.findById(wishlistId);
 		actualWishlistOptional.ifPresent(actualWishList -> {
 			actualWishList.getProducts().removeIf(product -> product.getSku().equals(sku));

@@ -10,7 +10,7 @@ public interface IWishlistService {
 	
 	WishlistRecord saveOrUpdate(WishlistRequest request);
 	
-	void remove(String wishlistId, String sku);
+	void removeProduct(String wishlistId, String sku);
 	
 	WishlistRecord findAllByUserId(String id);
 	

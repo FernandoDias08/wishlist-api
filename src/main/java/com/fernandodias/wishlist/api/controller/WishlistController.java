@@ -40,8 +40,9 @@ public class WishlistController {
 	@Operation(summary = "Save or update a wishlist", description = "Save the wish list if Id is null and update if the Id is filled")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "successful operation", content = @Content(schema = @Schema(implementation = Wishlist.class))),
-			@ApiResponse(responseCode = "400", description = "Invalid ID supplied", content = @Content),
-			@ApiResponse(responseCode = "404", description = "Order not found", content = @Content) })
+			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content),
+			@ApiResponse(responseCode = "404", description = "Resource not found", content = @Content),
+			@ApiResponse(responseCode = "422", description = "Unprocessable Entity", content = @Content)})
 	@PostMapping
 	public ResponseEntity<?> saveOrUpdate(@Valid @RequestBody WishlistRequest request) {
 		WishlistRecord wishlist = wishlistService.saveOrUpdate(request);
@@ -51,8 +52,8 @@ public class WishlistController {
 	@Operation(summary = "Get wishlist by userId", description = "Return the wish list by userId")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "successful operation", content = @Content(schema = @Schema(implementation = Wishlist.class))),
-			@ApiResponse(responseCode = "400", description = "Invalid ID supplied", content = @Content),
-			@ApiResponse(responseCode = "404", description = "Order not found", content = @Content) })
+			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content),
+			@ApiResponse(responseCode = "404", description = "Resource not found", content = @Content) })
 	@GetMapping("/{userId}")
 	public ResponseEntity<?> getAllByUser(@PathVariable @NotNull Long userId) {
 		WishlistRecord wishlist = wishlistService.findAllByUserId(String.valueOf(userId));
@@ -65,8 +66,8 @@ public class WishlistController {
 	@Operation(summary = "Get all wishlists", description = "Return all wishlists")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "successful operation", content = @Content(schema = @Schema(implementation = Wishlist.class))),
-			@ApiResponse(responseCode = "400", description = "Invalid ID supplied", content = @Content),
-			@ApiResponse(responseCode = "404", description = "Order not found", content = @Content) })
+			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content),
+			@ApiResponse(responseCode = "404", description = "Resource not found", content = @Content) })
 	@GetMapping
 	public ResponseEntity<?> getAll() {
 		List<WishlistRecord> wishlists = wishlistService.findAll();
@@ -76,16 +77,16 @@ public class WishlistController {
 	@Operation(summary = "Remove a product from the wishlist by product sku", description = "Remove the product from the wishlist")
 	@ApiResponse(responseCode = "204", description = "Product removed", content = @Content)
 	@DeleteMapping("/{id}/product/{sku}")
-	public ResponseEntity<?> remover(@PathVariable @NotNull String id, @PathVariable @NotNull String sku) {
-		wishlistService.remove(id, sku);
+	public ResponseEntity<?> removeProduct(@PathVariable @NotNull String id, @PathVariable @NotNull String sku) {
+		wishlistService.removeProduct(id, sku);
 		return ResponseEntity.noContent().build();
 	}
 
 	@Operation(summary = "Get products from wishlist by userId and Name or Sku", description = "Returns a list of products if it exists with the name or sku provided")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "successful operation", content = @Content(schema = @Schema(implementation = Wishlist.class))),
-			@ApiResponse(responseCode = "400", description = "Invalid ID supplied", content = @Content),
-			@ApiResponse(responseCode = "404", description = "Order not found", content = @Content) })
+			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content),
+			@ApiResponse(responseCode = "404", description = "Resource not found", content = @Content) })
 	@GetMapping("/products")
 	public ResponseEntity<?> getProductByUserIdAndNameOrSku(@RequestParam(required = true) String userId,
 			@RequestParam(required = true) String nameOrSku) {

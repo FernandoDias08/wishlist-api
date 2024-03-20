@@ -1,5 +1,6 @@
 package com.fernandodias.wishlist.api;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -54,6 +55,10 @@ public class BaseApiTest {
 
 	public ResultActions callGet(String path) throws Exception {
 		return mockMvc.perform(get(path).accept(MediaType.APPLICATION_JSON)).andDo(print());
+	}
+
+	public ResultActions callDelete(String path) throws Exception {
+		return mockMvc.perform(delete(path).accept(MediaType.APPLICATION_JSON)).andDo(print());
 	}
 
 }
