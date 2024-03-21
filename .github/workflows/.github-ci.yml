@@ -47,7 +47,6 @@ jobs:
           push: true
           tags:
             fernandodias08/wishlist-api:${{github.run_number}}
-            fernandodias08/wishlist-api:latest
 
   deploy:
     runs-on: ubuntu-latest
