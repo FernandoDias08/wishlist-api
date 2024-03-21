@@ -159,4 +159,23 @@ class WishlistApiTest extends BaseApiTest {
 
 	}
 
+	@Test
+	@Order(8)
+	void shouldNotSaveOrUpdateBadRequest() throws Exception {
+
+		WishlistRequest request = new WishlistRequest();
+		ProductRequest product = new ProductRequest();
+
+		// USER ID NULL
+		product.setSku("99");
+		product.setName("product 99");
+		request.setProduct(product);
+		callPost("/wishlist", request).andExpect(status().isBadRequest());
+
+		// PRODUCT NULL
+		request.setUserId("555");
+		request.setProduct(null);
+		callPost("/wishlist", request).andExpect(status().isBadRequest());
+	}
+
 }
