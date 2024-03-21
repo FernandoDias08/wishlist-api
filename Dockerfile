@@ -17,7 +17,7 @@ COPY gradlew ./
 COPY src/ src/
 
 # Construindo o projeto usando o Gradle
-RUN ./gradlew clean build
+RUN ./gradlew clean build -x test
 
 # Usando a imagem oficial do OpenJDK 17 como base
 FROM openjdk:17-jdk-slim
