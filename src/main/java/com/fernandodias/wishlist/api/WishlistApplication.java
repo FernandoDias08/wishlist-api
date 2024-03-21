@@ -8,7 +8,6 @@ public class WishlistApplication {
 
 	public static void main(String[] args) {
 	      SpringApplication application = new SpringApplication(WishlistApplication.class);
-//	      application.setBannerMode(Banner.Mode.OFF);
 	      application.run(args);
 		}
 
