@@ -1,5 +1,6 @@
 # Wishlist-API
-Sistema para armazenamento e gestão de Lista de Desejos de produtos
+Sistema para armazenamento e gestão de Lista de Desejos de produtos.
+O sistema foi escrito em JAVA 17 com Spring 3, utilizando como banco principal o MongoDB e um banco em memória Redis para armazenamento e controle de cache de consultas.
 
 ## Autores
 ![My Skills](https://skillicons.dev/icons?i=github)
@@ -7,7 +8,7 @@ Sistema para armazenamento e gestão de Lista de Desejos de produtos
 
 
 ## Features
-![My Skills](https://skillicons.dev/icons?i=java,spring,mongo,gradle,docker)
+![My Skills](https://skillicons.dev/icons?i=java,spring,mongo,gradle,docker,redis)
 - JAVA 17
 - JUnit5
 - Testcontainers
@@ -17,6 +18,7 @@ Sistema para armazenamento e gestão de Lista de Desejos de produtos
 - MongoDB
 - OpenAPI
 - Docker
+- Redis
 
 ## Padrão de Commits
 ![My Skills](https://skillicons.dev/icons?i=git)
@@ -29,8 +31,8 @@ Sistema para armazenamento e gestão de Lista de Desejos de produtos
 
 ## Executando o sistema local - Opção 1
 ![My Skills](https://skillicons.dev/icons?i=eclipse,java,docker)
-- Para executar o projeto localmente, será necessário ter instalado o JAVA versão 17 ou superior e Docker para subir uma imagem de banco MongoDB.
-- Com o JAVA e Docker já instalados, basta entrar na pasta raiz do projeto e executar o seguinte comando  para subir uma instância de banco MongoDB:
+- Para executar o projeto localmente, será necessário ter instalado o JAVA versão 17 ou superior e Docker para subir uma imagem de banco MongoDB e um servidor Redis.
+- Com o JAVA e Docker já instalados, basta entrar na pasta raiz do projeto e executar o seguinte comando  para subir uma instância de banco MongoDB e uma instância de servidor Redis:
 ```docker-compose -f docker-compose-dev.yml up -d```
 
 - Após subir o banco, importar o projeto na IDE de sua preferência e executar como um projeto Java Application.
@@ -40,7 +42,7 @@ Sistema para armazenamento e gestão de Lista de Desejos de produtos
 - É possível executar o sistema localmente apenas através do Docker. Basta entrar na pasta raiz do projeto e executar o comando
  ```docker-compose build```. 
 
-- Após criação da imagem, executar o comando ```docker-compose up``` para subir tanto uma instância de banco MongoDB quanto a aplicação.
+- Após criação da imagem, executar o comando ```docker-compose up``` para subir tanto a instância de banco MongoDB, o servidor Redis e a aplicação.
 
 ## Documentação OpenAPI - Swagger
 ![My Skills](https://skillicons.dev/icons?i=spring)
