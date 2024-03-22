@@ -40,7 +40,7 @@ Sistema para armazenamento e gestão de Lista de Desejos de produtos
 - É possível executar o sistema localmente apenas através do Docker. Basta entrar na pasta raiz do projeto e executar o comando
  ```docker-compose build```. 
 
-Após criação da imagem, executar o comando ```docker-compose up``` para subir tanto uma instância de banco MongoDB quanto a aplicação.
+- Após criação da imagem, executar o comando ```docker-compose up``` para subir tanto uma instância de banco MongoDB quanto a aplicação.
 
 ## Documentação OpenAPI - Swagger
 ![My Skills](https://skillicons.dev/icons?i=spring)
