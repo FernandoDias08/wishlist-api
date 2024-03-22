@@ -35,7 +35,7 @@ O sistema foi escrito em JAVA 17 com Spring 3, utilizando como banco principal o
 - Com o JAVA e Docker já instalados, basta entrar na pasta raiz do projeto e executar o seguinte comando  para subir uma instância de banco MongoDB e uma instância de servidor Redis:
 ```docker-compose -f docker-compose-dev.yml up -d```
 
-- Após subir o banco, importar o projeto na IDE de sua preferência e executar como um projeto Java Application.
+- Após execução do arquivo Docker, importar o projeto na IDE de sua preferência e executar como um projeto Java Application.
   
 ## Executando o sistema local - Opção 2
 ![My Skills](https://skillicons.dev/icons?i=docker)
@@ -57,4 +57,8 @@ O sistema foi escrito em JAVA 17 com Spring 3, utilizando como banco principal o
 ## Infraestrutura
 ![My Skills](https://skillicons.dev/icons?i=docker,kubernetes)
 - Ao executar o stage de build, uma imagem Docker com o sistema é gerada e armazenada no meu repositório Dockerhub.
-- Em seguida, ao executar o stage de Deploy, o sistema irá buscar esta imagem no Dockerhub e executá-la em um cluster Kubernetes hospedado na Digital Ocean, onde permanecerá em execução. 
+- Em seguida, ao executar o stage de Deploy, o sistema irá buscar esta imagem no Dockerhub e executá-la em um cluster Kubernetes hospedado na Digital Ocean, onde permanecerá em execução.
+
+## Cache
+![My Skills](https://skillicons.dev/icons?i=redis)
+- O sistema Wishlist-API conta com um banco em memória Redis, para armazenamento de cache de consultas recorrentes, com duração de 24 horas
