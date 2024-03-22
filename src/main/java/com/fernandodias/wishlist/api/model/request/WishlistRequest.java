@@ -12,7 +12,6 @@ import lombok.Setter;
 public class WishlistRequest implements Serializable{
 
 	private static final long serialVersionUID = -9167809000879535316L;
-	private String id;
 	
 	@NotBlank(message = "User ID is required")
 	private String userId;

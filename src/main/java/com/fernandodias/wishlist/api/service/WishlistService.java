@@ -9,6 +9,8 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.fernandodias.wishlist.api.config.exception.WishlistException;
@@ -29,6 +31,7 @@ public class WishlistService implements IWishlistService {
 	private WishlistRepository wishlistRepository;
 
 	@Override
+    @CacheEvict(value = "wishlistCacheFindAllByUserId", key= "#request.userId")
 	public WishlistRecord saveOrUpdate(WishlistRequest request) {
 		try {
 			Wishlist wishlist = populateWishlist(request);
@@ -41,8 +44,7 @@ public class WishlistService implements IWishlistService {
 
 	private Wishlist populateWishlist(WishlistRequest request) {
 		Wishlist wishlist = new Wishlist(request);
-		Optional<Wishlist> actualWishlistOptional = wishlistRepository.findByIdOrUserId(request.getId(),
-				request.getUserId());
+		Optional<Wishlist> actualWishlistOptional = wishlistRepository.findByUserId(request.getUserId());
 		
 		actualWishlistOptional.ifPresent(actualWishlist -> {
 			
@@ -66,8 +68,9 @@ public class WishlistService implements IWishlistService {
 	}
 
 	@Override
-	public void removeProduct(String wishlistId, String sku) {
-		Optional<Wishlist> actualWishlistOptional = wishlistRepository.findById(wishlistId);
+    @CacheEvict(value = "wishlistCacheFindAllByUserId", key= "#userId")
+	public void removeProduct(String userId, String sku) {
+		Optional<Wishlist> actualWishlistOptional = wishlistRepository.findByUserId(userId);
 		actualWishlistOptional.ifPresent(actualWishList -> {
 			actualWishList.getProducts().removeIf(product -> product.getSku().equals(sku));
 			wishlistRepository.save(actualWishList);
@@ -75,6 +78,7 @@ public class WishlistService implements IWishlistService {
 	}
 
 	@Override
+	@Cacheable(cacheNames = "wishlistCacheFindAllByUserId")
 	public WishlistRecord findAllByUserId(String userId) {
 		return wishlistRepository.findByUserId(userId)
 				.map(wishlist -> new WishlistRecord(wishlist.getId(), wishlist.getUserId(), wishlist.getProducts()))

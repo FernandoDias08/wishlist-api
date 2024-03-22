@@ -24,6 +24,7 @@ FROM openjdk:17-jdk-slim
 
 # Definindo variáveis de ambiente para a conexão com o MongoDB
 ENV MONGODB_URI=mongodb://mongo:27017/wishlist_db
+ENV REDIS_HOST=redis
 
 # Definindo o diretório de trabalho para /app
 WORKDIR /app

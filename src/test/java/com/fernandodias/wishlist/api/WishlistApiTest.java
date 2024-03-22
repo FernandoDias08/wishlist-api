@@ -11,12 +11,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.web.servlet.MvcResult;
 
 import com.fernandodias.wishlist.api.config.exception.WishlistException;
 import com.fernandodias.wishlist.api.model.request.ProductRequest;
 import com.fernandodias.wishlist.api.model.request.WishlistRequest;
-import com.jayway.jsonpath.JsonPath;
 
 @ExtendWith(MockitoExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -66,25 +64,20 @@ class WishlistApiTest extends BaseApiTest {
 	void shouldGetProductByUserIdAndNameOrSku() throws Exception {
 
 		// WITH VALUES
-		callGet("/wishlist/products?userId=333&nameOrSku=7").andExpect(status().isOk())
+		callGet("/wishlist/333/products?nameOrSku=7").andExpect(status().isOk())
 				.andExpect(jsonPath("$.size()").value(1)).andExpect(jsonPath("$[0].sku").value("777"))
 				.andExpect(jsonPath("$[0].name").value("product 777"));
 
 		// WITHOUT VALUES
-		callGet("/wishlist/products?userId=333&nameOrSku=88").andExpect(status().isOk())
+		callGet("/wishlist/333/products?nameOrSku=88").andExpect(status().isOk())
 				.andExpect(jsonPath("$.size()").value(0));
 	}
 
 	@Test
 	@Order(5)
 	void shouldRemoveProduct() throws Exception {
-
-		// GET WISHLIST
-		MvcResult wishList = callGet("/wishlist/333").andExpect(status().isOk()).andReturn();
-		String id = JsonPath.read(wishList.getResponse().getContentAsString(), "$.id").toString();
-
 		// REMOVE PRODUCT
-		callDelete("/wishlist/" + id + "/product/777").andExpect(status().isNoContent());
+		callDelete("/wishlist/333/product/777").andExpect(status().isNoContent());
 
 		// CHECK PRODUCT VALUES
 		callGet("/wishlist/333").andExpect(status().isOk()).andExpect(jsonPath("$.id").isNotEmpty())

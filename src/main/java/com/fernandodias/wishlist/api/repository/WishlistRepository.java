@@ -13,8 +13,6 @@ public interface WishlistRepository extends MongoRepository<Wishlist, String> {
 
 	Optional<Wishlist> findByUserId(String userId);
 
-	Optional<Wishlist> findByIdOrUserId(String id, String userId);
-
 	@Query(value = "{'userId': ?0, 'products': { $elemMatch: { $or: [ { 'name': { $regex: ?1, $options: 'i' } }, { 'sku': { $regex: ?1, $options: 'i' } } ] } } }", fields = "{'products.$': 1}")
 	Optional<Wishlist> findProductByUserIdAndNameOrSku(String userId, String nameOrSku);
 

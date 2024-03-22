@@ -74,21 +74,21 @@ public class WishlistController {
 		return ResponseEntity.ok(wishlists);
 	}
 
-	@Operation(summary = "Remove a product from the wishlist by product sku", description = "Remove the product from the wishlist")
+	@Operation(summary = "Remove a product from the wishlist by user id and product sku", description = "Remove the product from the wishlist")
 	@ApiResponse(responseCode = "204", description = "Product removed", content = @Content)
-	@DeleteMapping("/{id}/product/{sku}")
-	public ResponseEntity<?> removeProduct(@PathVariable @NotNull String id, @PathVariable @NotNull String sku) {
-		wishlistService.removeProduct(id, sku);
+	@DeleteMapping("{userId}/product/{sku}")
+	public ResponseEntity<?> removeProduct(@PathVariable @NotNull String userId, @PathVariable @NotNull String sku) {
+		wishlistService.removeProduct(userId, sku);
 		return ResponseEntity.noContent().build();
 	}
 
-	@Operation(summary = "Get products from wishlist by userId and Name or Sku", description = "Returns a list of products if it exists with the name or sku provided")
+	@Operation(summary = "Get products from wishlist by user id and name or sku", description = "Returns a list of products if it exists with the name or sku provided")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "successful operation", content = @Content(schema = @Schema(implementation = Wishlist.class))),
 			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content),
 			@ApiResponse(responseCode = "404", description = "Resource not found", content = @Content) })
-	@GetMapping("/products")
-	public ResponseEntity<?> getProductByUserIdAndNameOrSku(@RequestParam(required = true) String userId,
+	@GetMapping("{userId}/products")
+	public ResponseEntity<?> getProductByUserIdAndNameOrSku(@PathVariable @NotNull String userId,
 			@RequestParam(required = true) String nameOrSku) {
 		List<ProductRecord> products = wishlistService.findProductByUserIdAndNameOrSku(userId, nameOrSku);
 		return ResponseEntity.ok(products);
