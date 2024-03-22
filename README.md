@@ -61,4 +61,5 @@ O sistema foi escrito em JAVA 17 com Spring 3, utilizando como banco principal o
 
 ## Cache
 ![My Skills](https://skillicons.dev/icons?i=redis)
-- O sistema Wishlist-API conta com um banco em memória Redis, para armazenamento de cache de consultas recorrentes, com duração de 24 horas
+- O sistema Wishlist-API conta com um banco em memória Redis, para armazenamento de cache de consultas recorrentes, com duração de 24 horas.
+- Este cache é limpo sempre que um produto é adicionado ou removido da lista do usuário ou após o período de 24 horas sem alteração.
